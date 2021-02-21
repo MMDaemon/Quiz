@@ -3,15 +3,39 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Quiz"
         mc:Ignorable="d"
         Title="Quiz" Height="450" Width="800">
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
-                <Button Content="Open" Click="Button_Click"/>
+                <Button Content="Open" Click="OpenButton_Click"/>
             </ToolBar>
         </ToolBarTray>
-        <TextBox AcceptsReturn="True" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1" Margin="20,20,20,0">
+                <TextBlock TextWrapping="Wrap" Text="{Binding Path=CurrentQuestion.Text, UpdateSourceTrigger=PropertyChanged}" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Margin="20,0"/>
+            </Border>
+            <TextBlock TextWrapping="Wrap" Text="{Binding Path=QuestionCount}" Margin="25,25,0,0"/>
+            <TextBlock TextWrapping="Wrap" Text="{Binding Path=CurrentQuestion.Difficulty}" Margin="0,25,25,0" TextAlignment="Right"/>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="answer1" Grid.Row="0" Grid.Column="0" IsEnabled="False" Content="{Binding Path=CurrentQuestion.Answers[0]}" Margin="20,20,10,10" Click="AnswerButton_Click"/>
+                <Button x:Name="answer2" Grid.Row="0" Grid.Column="1" IsEnabled="False" Content="{Binding Path=CurrentQuestion.Answers[1]}" Margin="10,20,20,10" Click="AnswerButton_Click"/>
+                <Button x:Name="answer3" Grid.Row="1" Grid.Column="0" IsEnabled="False" Content="{Binding Path=CurrentQuestion.Answers[2]}" Margin="20,10,10,20" Click="AnswerButton_Click"/>
+                <Button x:Name="answer4" Grid.Row="1" Grid.Column="1" IsEnabled="False" Content="{Binding Path=CurrentQuestion.Answers[3]}" Margin="10,10,20,20" Click="AnswerButton_Click"/>                
+            </Grid>
+            
+        </Grid>
     </DockPanel>
 </Window>
