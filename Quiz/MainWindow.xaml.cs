@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -36,7 +35,7 @@ namespace Quiz
                         while (!reader.EndOfStream)
                         {
                             var line = reader.ReadLine();
-                            var values = line.Split(',');
+                            var values = line.Split(',', ';');
 
                             Question question = new Question { Text = values[0], Answers = new string[] { values[1], values[2], values[3], values[4] }, Difficulty = int.Parse(values[5]) };
                             _questions.Add(question);
