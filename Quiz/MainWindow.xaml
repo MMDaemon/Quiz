@@ -6,7 +6,12 @@
         xmlns:local="clr-namespace:Quiz"
         mc:Ignorable="d"
         Title="Quiz" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Content="Open" Click="Button_Click"/>
+            </ToolBar>
+        </ToolBarTray>
+        <TextBox AcceptsReturn="True" />
+    </DockPanel>
 </Window>
