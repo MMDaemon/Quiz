@@ -13,8 +13,9 @@
         </ToolBarTray>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="5*"></RowDefinition>
+                <RowDefinition Height="5*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
             </Grid.RowDefinitions>
             <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1" Margin="20,20,20,0">
                 <TextBlock TextWrapping="Wrap" Text="{Binding Path=CurrentQuestion.Text, UpdateSourceTrigger=PropertyChanged}" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Margin="20,0"/>
@@ -30,12 +31,13 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="answer1" Grid.Row="0" Grid.Column="0" IsEnabled="False" Content="{Binding Path=CurrentQuestion.Answers[0]}" Margin="20,20,10,10" Click="AnswerButton_Click"/>
-                <Button x:Name="answer2" Grid.Row="0" Grid.Column="1" IsEnabled="False" Content="{Binding Path=CurrentQuestion.Answers[1]}" Margin="10,20,20,10" Click="AnswerButton_Click"/>
-                <Button x:Name="answer3" Grid.Row="1" Grid.Column="0" IsEnabled="False" Content="{Binding Path=CurrentQuestion.Answers[2]}" Margin="20,10,10,20" Click="AnswerButton_Click"/>
-                <Button x:Name="answer4" Grid.Row="1" Grid.Column="1" IsEnabled="False" Content="{Binding Path=CurrentQuestion.Answers[3]}" Margin="10,10,20,20" Click="AnswerButton_Click"/>                
+                <Button x:Name="answer1" Grid.Row="0" Grid.Column="0" IsEnabled="False" Content="{Binding Path=CurrentQuestion.Answers[0]}" FontSize="20" Margin="20,20,10,10" Click="AnswerButton_Click"/>
+                <Button x:Name="answer2" Grid.Row="0" Grid.Column="1" IsEnabled="False" Content="{Binding Path=CurrentQuestion.Answers[1]}" FontSize="20" Margin="10,20,20,10" Click="AnswerButton_Click"/>
+                <Button x:Name="answer3" Grid.Row="1" Grid.Column="0" IsEnabled="False" Content="{Binding Path=CurrentQuestion.Answers[2]}" FontSize="20" Margin="20,10,10,20" Click="AnswerButton_Click"/>
+                <Button x:Name="answer4" Grid.Row="1" Grid.Column="1" IsEnabled="False" Content="{Binding Path=CurrentQuestion.Answers[3]}" FontSize="20" Margin="10,10,20,20" Click="AnswerButton_Click"/>                
             </Grid>
-            
+            <Button x:Name="next" IsEnabled="False" Content="Nächste Frage" FontSize="20" Margin="20,0,20,20" Grid.Row="2" Click="NextButton_Click"/>
+
         </Grid>
     </DockPanel>
 </Window>

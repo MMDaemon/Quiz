@@ -124,6 +124,17 @@ namespace Quiz
             {
                 answer4.Background = Brushes.Green;
             }
+
+            if(_currentQuestionID + 1 < _questions.Count)
+            {
+                next.IsEnabled = true;
+            }
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            next.IsEnabled = false;
+            SetQuestionID(_currentQuestionID + 1);
         }
     }
 }
