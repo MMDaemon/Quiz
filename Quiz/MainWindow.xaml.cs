@@ -79,6 +79,7 @@ namespace Quiz
 
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
+                    _questions.Clear();
                     using (var reader = new StreamReader(openFileDialog.FileName))
                     {
                         reader.ReadLine();
