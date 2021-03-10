@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace Quiz
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        private static Random rng = new Random();
+
         private const string LOAD_QUIZ = "Quiz laden";
         private const string CONFIRM = "Antwort bestätigen";
         private const string NEXT = "Nächste Frage";
@@ -44,6 +47,14 @@ namespace Quiz
             get => _questionCount;
             set => SetField(ref _questionCount, value, nameof(QuestionCount));
         }
+
+        public bool _jokersEnabled = false;
+        public bool JokersEnabled
+        {
+            get => _jokersEnabled;
+            set => SetField(ref _jokersEnabled, value, nameof(JokersEnabled));
+        }
+        public string FiftyFifty => "50/50";
 
         public MainWindow()
         {
@@ -89,6 +100,8 @@ namespace Quiz
                         }
                     }
                     _questions = _questions.OrderBy((question) => question.Difficulty).ToList();
+
+                    JokersEnabled = true;
 
                     SetQuestionID(0);
                 }
@@ -158,6 +171,22 @@ namespace Quiz
             }
         }
 
+        private void DisableTwoAnwsers()
+        {
+            List<System.Windows.Controls.Button> answers = new List<System.Windows.Controls.Button>() { answer1, answer2, answer3, answer4 };
+
+            int removedAnswers = 0;
+            while (removedAnswers < 2)
+            {
+                int randomNumber = rng.Next(4);
+                if (!CurrentQuestion.IsCorrect(answers[randomNumber].Content.ToString()))
+                {
+                    answers[randomNumber].IsEnabled = false;
+                    removedAnswers++;
+                }
+            }
+        }
+
         private void Cover_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Controls.Button cover = (System.Windows.Controls.Button)sender;
@@ -192,6 +221,18 @@ namespace Quiz
                 case NEXT:
                     SetQuestionID(_currentQuestionID + 1);
                     break;
+            }
+        }
+
+        private void Joker_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Controls.Button joker = (System.Windows.Controls.Button)sender;
+
+            joker.IsEnabled = false;
+
+            if (joker.Content?.ToString() == FiftyFifty)
+            {
+                DisableTwoAnwsers();
             }
         }
     }
