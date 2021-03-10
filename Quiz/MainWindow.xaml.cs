@@ -19,6 +19,10 @@ namespace Quiz
         private const string LOAD_QUIZ = "Quiz laden";
         private const string CONFIRM = "Antwort bestätigen";
         private const string NEXT = "Nächste Frage";
+        private const string RESULT = "Ergebnis anzeigen";
+
+        private int _correctCount = 0;
+        private Dictionary<int, int> _correctByDifficultyCount;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -56,11 +60,23 @@ namespace Quiz
         }
         public string FiftyFifty => "50/50";
 
+        public string _resultText;
+        public string ResultText
+        {
+            get => _resultText;
+            set => SetField(ref _resultText, value, nameof(ResultText));
+        }
+
         public MainWindow()
         {
             _questions = new List<Question>();
             InitializeComponent();
             this.DataContext = this;
+
+            _correctByDifficultyCount = new Dictionary<int, int>()
+            {
+                {1,0},{2,0},{3,0},{4,0},{5,0}
+            };
         }
 
         private void OnPropertyChanged(string propertyName)
@@ -99,7 +115,7 @@ namespace Quiz
                             _questions.Add(question);
                         }
                     }
-                    _questions = _questions.OrderBy((question) => question.Difficulty).ToList();
+                    _questions = _questions.OrderBy((question) => question.DifficultyText).ToList();
 
                     JokersEnabled = true;
 
@@ -141,6 +157,12 @@ namespace Quiz
 
         private void EvaluateAnswer()
         {
+            if (CurrentQuestion.IsCorrect(_currentAnswer))
+            {
+                _correctCount++;
+                _correctByDifficultyCount[CurrentQuestion.Difficulty]++;
+            }
+
             cover1.Visibility = Visibility.Hidden;
             cover2.Visibility = Visibility.Hidden;
             cover3.Visibility = Visibility.Hidden;
@@ -154,7 +176,7 @@ namespace Quiz
             NextButtonText = NEXT;
             if (_currentQuestionID + 1 >= _questions.Count)
             {
-                next.IsEnabled = false;
+                NextButtonText = RESULT;
             }
         }
 
@@ -185,6 +207,18 @@ namespace Quiz
                     removedAnswers++;
                 }
             }
+        }
+
+        private void ShowResult()
+        {
+            ResultText =
+                $"Richtige Schwierigkeit 1 Antworten: {_correctByDifficultyCount[1]}/{_questions.Count(question => question.Difficulty == 1)}\r" +
+                $"Richtige Schwierigkeit 2 Antworten: {_correctByDifficultyCount[2]}/{_questions.Count(question => question.Difficulty == 2)}\r" +
+                $"Richtige Schwierigkeit 3 Antworten: {_correctByDifficultyCount[3]}/{_questions.Count(question => question.Difficulty == 3)}\r" +
+                $"Richtige Schwierigkeit 4 Antworten: {_correctByDifficultyCount[4]}/{_questions.Count(question => question.Difficulty == 4)}\r" +
+                $"Richtige Schwierigkeit 5 Antworten: {_correctByDifficultyCount[5]}/{_questions.Count(question => question.Difficulty == 5)}\r" +
+                $"Richtige Antworten: {_correctCount}/{_questions.Count}";
+            result.Visibility = Visibility.Visible;
         }
 
         private void Cover_Click(object sender, RoutedEventArgs e)
@@ -220,6 +254,9 @@ namespace Quiz
                     break;
                 case NEXT:
                     SetQuestionID(_currentQuestionID + 1);
+                    break;
+                case RESULT:
+                    ShowResult();
                     break;
             }
         }

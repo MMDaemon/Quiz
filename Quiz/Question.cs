@@ -8,7 +8,8 @@ namespace Quiz
         private string _correctAnswer;
         public string Text { get; }
         public IEnumerable<string> Answers { get; }
-        public string Difficulty { get; }
+        public int Difficulty { get; }
+        public string DifficultyText { get; }
 
         public Question(string text, string correctAnswer, IEnumerable<string> otherAnswers, int difficulty)
         {
@@ -22,7 +23,8 @@ namespace Quiz
             answers.Shuffle();
             Answers = answers;
 
-            Difficulty = $"Schwierigkeitsgrad {difficulty} / 5";
+            Difficulty = difficulty;
+            DifficultyText = $"Schwierigkeitsgrad {difficulty} / 5";
         }
 
         public bool IsCorrect(string answer)
