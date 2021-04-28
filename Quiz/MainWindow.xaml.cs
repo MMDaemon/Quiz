@@ -201,7 +201,7 @@ namespace Quiz
             while (removedAnswers < 2)
             {
                 int randomNumber = rng.Next(4);
-                if (!CurrentQuestion.IsCorrect(answers[randomNumber].Content.ToString()))
+                if (!CurrentQuestion.IsCorrect(answers[randomNumber].Content.ToString()) && answers[randomNumber].IsEnabled)
                 {
                     answers[randomNumber].IsEnabled = false;
                     removedAnswers++;
